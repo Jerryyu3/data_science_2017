@@ -81,6 +81,10 @@ if __name__ == '__main__':
     sentences = response.readlines()
 
     class_data = dict(); i = 0;
+    input_order = 0
+    big_class_order = dict()
+    small_class_name = [[], [], []]
+
     for sentence in sentences:
         if(i==0): 
             i+=1; continue
@@ -88,49 +92,110 @@ if __name__ == '__main__':
         words = sentence.split(',')
         if words[1]!='':
             class_data[words[0]] = [float(words[1]), float(words[2]), float(words[3]), float(words[4])]
-    
+            small_class_name[input_order-1].append(words[0])
+        else:
+            input_order += 1;
+            big_class_order[words[0]] = input_order
+    print (small_class_name)
+
     for i in range(len(sys.argv)-1):
         if(sys.argv[i+1]=="-Ab"):
-            datas = [class_data['20000 and below']]; datas.append(class_data['20001-40000']); datas.append(class_data['40001 and above'])
-            bar_line_plot(datas, 'Average monthly income', ['20000 and below', '20001-40000', '40001 and above'], True)
+            input_order = big_class_order['Average monthly income']
+            datas = []; use_list = small_class_name[input_order-1]
+            for name in use_list:
+                datas.append(class_data[name])
+
+            #datas = [class_data['20000 and below']]; datas.append(class_data['20001-40000']); datas.append(class_data['40001 and above'])
+            #bar_line_plot(datas, 'Average monthly income', ['20000 and below', '20001-40000', '40001 and above'], True)
+            bar_line_plot(datas, 'Average monthly income', use_list, True)
 
         elif(sys.argv[i+1]=="-Eb"):
-            datas = [class_data['elementary school and below']]; datas.append(class_data['junior high']); datas.append(class_data['senior high'])
-            datas.append(class_data['university']); datas.append(class_data['graduate school and above'])
-            bar_line_plot(datas, 'Education level', 
-                    ['elementary school and below', 'junior high', 'senior high', 'university', 'graduate school and above'], True)
+            input_order = big_class_order['Education level']
+            datas = []; use_list = small_class_name[input_order-1]
+            for name in use_list:
+                datas.append(class_data[name])
+
+            #datas = [class_data['elementary school and below']]; datas.append(class_data['junior high']); datas.append(class_data['senior high'])
+            #datas.append(class_data['university']); datas.append(class_data['graduate school and above'])
+            #bar_line_plot(datas, 'Education level', 
+            #        ['elementary school and below', 'junior high', 'senior high', 'university', 'graduate school and above'], True)
+            bar_line_plot(datas, 'Education level', use_list, True)
             
+
         elif(sys.argv[i+1]=="-Wb"):
-            datas = [class_data['indoor']]; datas.append(class_data['outdoor']); datas.append(class_data['unemployed'])
-            bar_line_plot(datas, 'Working environment', ['indoor', 'outdoor', 'unemployed'], True)
+            input_order = big_class_order['Working environment']
+            datas = []; use_list = small_class_name[input_order-1]
+            for name in use_list:
+                datas.append(class_data[name])
+
+            #datas = [class_data['indoor']]; datas.append(class_data['outdoor']); datas.append(class_data['unemployed'])
+            #bar_line_plot(datas, 'Working environment', ['indoor', 'outdoor', 'unemployed'], True)
+            bar_line_plot(datas, 'Working environment', use_list, True)
 
         elif(sys.argv[i+1]=="-Al"):
-            datas = [class_data['20000 and below']]; datas.append(class_data['20001-40000']); datas.append(class_data['40001 and above'])
-            bar_line_plot(datas, 'Average monthly income', ['20000 and below', '20001-40000', '40001 and above'], False)
+            input_order = big_class_order['Average monthly income']
+            datas = []; use_list = small_class_name[input_order-1]
+            for name in use_list:
+                datas.append(class_data[name])
+
+            #datas = [class_data['20000 and below']]; datas.append(class_data['20001-40000']); datas.append(class_data['40001 and above'])
+            #bar_line_plot(datas, 'Average monthly income', ['20000 and below', '20001-40000', '40001 and above'], False)
+            bar_line_plot(datas, 'Average monthly income', use_list, False)
 
         elif(sys.argv[i+1]=="-El"):
-            datas = [class_data['elementary school and below']]; datas.append(class_data['junior high']); datas.append(class_data['senior high'])
-            datas.append(class_data['university']); datas.append(class_data['graduate school and above'])
-            bar_line_plot(datas, 'Education level', 
-                    ['elementary school and below', 'junior high', 'senior high', 'university', 'graduate school and above'], False)
-            
+            input_order = big_class_order['Education level']
+            datas = []; use_list = small_class_name[input_order-1]
+            for name in use_list:
+                datas.append(class_data[name])
+
+            #datas = [class_data['elementary school and below']]; datas.append(class_data['junior high']); datas.append(class_data['senior high'])
+            #datas.append(class_data['university']); datas.append(class_data['graduate school and above'])
+            #bar_line_plot(datas, 'Education level', 
+            #        ['elementary school and below', 'junior high', 'senior high', 'university', 'graduate school and above'], False)
+            bar_line_plot(datas, 'Education level', use_list, False)
+
         elif(sys.argv[i+1]=="-Wl"):
-            datas = [class_data['indoor']]; datas.append(class_data['outdoor']); datas.append(class_data['unemployed'])
-            bar_line_plot(datas, 'Working environment', ['indoor', 'outdoor', 'unemployed'], False)
+            input_order = big_class_order['Working environment']
+            datas = []; use_list = small_class_name[input_order-1]
+            for name in use_list:
+                datas.append(class_data[name])
+
+            #datas = [class_data['indoor']]; datas.append(class_data['outdoor']); datas.append(class_data['unemployed'])
+            #bar_line_plot(datas, 'Working environment', ['indoor', 'outdoor', 'unemployed'], False)
+            bar_line_plot(datas, 'Working environment', use_list, False)
 
         elif(sys.argv[i+1]=="-Ap"):
-            datas = [class_data['20000 and below']]; datas.append(class_data['20001-40000']); datas.append(class_data['40001 and above'])
-            pie_plot(datas, 'average monthly income', ['20000 and below', '20001-40000', '40001 and above'])
+            input_order = big_class_order['Average monthly income']
+            datas = []; use_list = small_class_name[input_order-1]
+            for name in use_list:
+                datas.append(class_data[name])
+
+            #datas = [class_data['20000 and below']]; datas.append(class_data['20001-40000']); datas.append(class_data['40001 and above'])
+            #pie_plot(datas, 'average monthly income', ['20000 and below', '20001-40000', '40001 and above'])
+            pie_plot(datas, 'average monthly income', use_list)
 
         elif(sys.argv[i+1]=="-Ep"):
-            datas = [class_data['elementary school and below']]; datas.append(class_data['junior high']); datas.append(class_data['senior high'])
-            datas.append(class_data['university']); datas.append(class_data['graduate school and above'])
-            pie_plot(datas, 'education level', 
-                    ['elementary school and below', 'junior high', 'senior high', 'university', 'graduate school and above'])
+            input_order = big_class_order['Education level']
+            datas = []; use_list = small_class_name[input_order-1]
+            for name in use_list:
+                datas.append(class_data[name])
+
+            #datas = [class_data['elementary school and below']]; datas.append(class_data['junior high']); datas.append(class_data['senior high'])
+            #datas.append(class_data['university']); datas.append(class_data['graduate school and above'])
+            #pie_plot(datas, 'education level', 
+            #        ['elementary school and below', 'junior high', 'senior high', 'university', 'graduate school and above'])
+            pie_plot(datas, 'education level', use_list)
             
+
         elif(sys.argv[i+1]=="-Wp"):
-            datas = [class_data['indoor']]; datas.append(class_data['outdoor']); datas.append(class_data['unemployed'])
-            pie_plot(datas, 'working environment', ['indoor', 'outdoor', 'unemployed'])
+            input_order = big_class_order['Working environment']
+            datas = []; use_list = small_class_name[input_order-1]
+            for name in use_list:
+                datas.append(class_data[name])
+
+            #datas = [class_data['indoor']]; datas.append(class_data['outdoor']); datas.append(class_data['unemployed'])
+            #pie_plot(datas, 'working environment', ['indoor', 'outdoor', 'unemployed'])
+            pie_plot(datas, 'working environment', use_list)
 
 
 
