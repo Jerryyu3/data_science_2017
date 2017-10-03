@@ -96,7 +96,6 @@ if __name__ == '__main__':
         else:
             input_order += 1;
             big_class_order[words[0]] = input_order
-    print (small_class_name)
 
     for i in range(len(sys.argv)-1):
         if(sys.argv[i+1]=="-Ab"):
