@@ -3,6 +3,7 @@ import numpy as np
 from sklearn.neural_network import MLPClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LogisticRegression
+from sklearn import svm
 
 from sklearn.model_selection import GridSearchCV, StratifiedKFold
 
@@ -40,6 +41,7 @@ def check_answer(output, fileName):
 
 def predict(output):
   print ("Output predict.csv!")
+  np.savetxt('predict.csv', output, fmt='%d', delimiter=",")
 
 def logistic_reg(X_train, Y_train, X_test):
   print ("logistic regression!")
@@ -64,17 +66,18 @@ def logistic_reg(X_train, Y_train, X_test):
 
   gridsearch.fit(X_train, Y_train[:,0])
   parameters = gridsearch.best_params_
-  print(parameters)
+  #print(parameters)
 
   #print(gridsearch.best_estimator_.coef_)
 
   #print(1-np.mean(Y_train[:,0]),'Best Score: {}'.format(gridsearch.best_score_))
                                                   
   output = gridsearch.predict(X_test); output = np.transpose([output]);
-  check_answer(output, 'test_ans.csv')
+  predict(output)
+  #check_answer(output, 'test_ans.csv')
 
   output = gridsearch.predict(X_train)
-  print (1-np.mean(Y_train[:,0]), np.mean(output==Y_train[:,0]))
+  #print (1-np.mean(Y_train[:,0]), np.mean(output==Y_train[:,0]))
 
   #print(np.mean((output != Y_train[:,0]) * (output == 1)), np.mean((output != Y_train[:,0]) * (output == 0)))
 
@@ -101,18 +104,49 @@ def decision_tree(X_train, Y_train, X_test):
 
   gridsearch.fit(X_train, Y_train[:,0])
   parameters = gridsearch.best_params_
-  print(parameters)
+  #print(parameters)
 
   #print(1-np.mean(Y_train[:,0]),'Best Score: {}'.format(gridsearch.best_score_))
                                                   
   output = gridsearch.predict(X_test); output = np.transpose([output]);
-  check_answer(output, 'test_ans.csv')
+  predict(output)
+  #check_answer(output, 'test_ans.csv')
 
   output = gridsearch.predict(X_train)
-  print (1-np.mean(Y_train[:,0]), np.mean(output==Y_train[:,0]))
+  #print (1-np.mean(Y_train[:,0]), np.mean(output==Y_train[:,0]))
 
 def SVM(X_train, Y_train, X_test):
   print ("SVM!")
+  table = computeMean_Var(X_train) 
+  normalize(X_train, table); normalize(X_test, table)
+
+  parameter_gridsearch = [{
+    'kernel':['rbf'],
+    'C':[1.0, 10.0, 100.0, 1000.0],
+    'gamma':[0.001,0.0001],
+    }, {'C': [1.0, 10.0, 100.0, 1000.0], 'kernel': ['linear']}]
+
+  SVM = svm.SVC()
+  crossvalidation = StratifiedKFold(n_splits=5)
+
+  gridsearch = GridSearchCV(SVM,
+    scoring='accuracy',
+    param_grid=parameter_gridsearch,
+    cv=crossvalidation)
+
+  gridsearch.fit(X_train, Y_train[:,0])
+  parameters = gridsearch.best_params_
+  #print(parameters)
+
+  #print(1-np.mean(Y_train[:,0]),'Best Score: {}'.format(gridsearch.best_score_))
+                                                  
+  output = gridsearch.predict(X_test); output = np.transpose([output]);
+  predict(output)
+  #check_answer(output, 'test_ans.csv')
+
+  output = gridsearch.predict(X_train)
+  #print (1-np.mean(Y_train[:,0]), np.mean(output==Y_train[:,0]))
+
 
 
 def NN(X_train, Y_train, X_test):
@@ -120,12 +154,12 @@ def NN(X_train, Y_train, X_test):
   table = computeMean_Var(X_train) 
   normalize(X_train, table); normalize(X_test, table)
   parameter_gridsearch = {
-    'hidden_layer_sizes':[(100, ), (200, )],
+    'hidden_layer_sizes':[(100, )],
     'activation':['relu'],
     'solver':['adam'],
     'batch_size':['auto'],
     'learning_rate_init':[0.001],
-    'max_iter':[200, 400],
+    'max_iter':[300],
     'shuffle':[True],
     'momentum':[0.9],
     'alpha':[0.0001],
@@ -142,16 +176,16 @@ def NN(X_train, Y_train, X_test):
 
   gridsearch.fit(X_train, Y_train[:,0])
   parameters = gridsearch.best_params_
-  print(parameters)
+  #print(parameters)
 
   #print(1-np.mean(Y_train[:,0]),'Best Score: {}'.format(gridsearch.best_score_))
                                                   
   output = gridsearch.predict(X_test); output = np.transpose([output]);
-  check_answer(output, 'test_ans.csv')
+  predict(output)
+  #check_answer(output, 'test_ans.csv')
 
   output = gridsearch.predict(X_train)
-  print (1-np.mean(Y_train[:,0]), np.mean(output==Y_train[:,0]))
-
+  #print (1-np.mean(Y_train[:,0]), np.mean(output==Y_train[:,0]))
 
   
 if __name__ == '__main__':
