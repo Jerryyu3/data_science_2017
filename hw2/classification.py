@@ -124,7 +124,7 @@ def SVM(X_train, Y_train, X_test):
     'kernel':['rbf'],
     'C':[1.0, 10.0, 100.0, 1000.0],
     'gamma':[0.001,0.0001],
-    }, {'C': [1.0, 10.0, 100.0, 1000.0], 'kernel': ['linear']}]
+    }]#, {'C': [1.0, 10.0, 100.0, 1000.0], 'kernel': ['linear']}]
 
   SVM = svm.SVC()
   crossvalidation = StratifiedKFold(n_splits=5)
