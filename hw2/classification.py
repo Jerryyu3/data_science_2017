@@ -7,7 +7,7 @@ from sklearn import svm
 
 from sklearn.model_selection import GridSearchCV, StratifiedKFold
 
-
+answer_file = 'test_ans.csv'
 
 def readData():
   X_train = np.genfromtxt(sys.argv[2], delimiter=',')
@@ -74,10 +74,10 @@ def logistic_reg(X_train, Y_train, X_test):
                                                   
   output = gridsearch.predict(X_test); output = np.transpose([output]);
   predict(output)
-  #check_answer(output, 'test_ans.csv')
+  check_answer(output, answer_file)
 
   output = gridsearch.predict(X_train)
-  #print (1-np.mean(Y_train[:,0]), np.mean(output==Y_train[:,0]))
+  print (1-np.mean(Y_train[:,0]), np.mean(output==Y_train[:,0]))
 
   #print(np.mean((output != Y_train[:,0]) * (output == 1)), np.mean((output != Y_train[:,0]) * (output == 0)))
 
@@ -110,10 +110,10 @@ def decision_tree(X_train, Y_train, X_test):
                                                   
   output = gridsearch.predict(X_test); output = np.transpose([output]);
   predict(output)
-  #check_answer(output, 'test_ans.csv')
+  check_answer(output, answer_file)
 
   output = gridsearch.predict(X_train)
-  #print (1-np.mean(Y_train[:,0]), np.mean(output==Y_train[:,0]))
+  print (1-np.mean(Y_train[:,0]), np.mean(output==Y_train[:,0]))
 
 def SVM(X_train, Y_train, X_test):
   print ("SVM!")
@@ -142,10 +142,10 @@ def SVM(X_train, Y_train, X_test):
                                                   
   output = gridsearch.predict(X_test); output = np.transpose([output]);
   predict(output)
-  #check_answer(output, 'test_ans.csv')
+  check_answer(output, answer_file)
 
   output = gridsearch.predict(X_train)
-  #print (1-np.mean(Y_train[:,0]), np.mean(output==Y_train[:,0]))
+  print (1-np.mean(Y_train[:,0]), np.mean(output==Y_train[:,0]))
 
 
 
@@ -182,10 +182,10 @@ def NN(X_train, Y_train, X_test):
                                                   
   output = gridsearch.predict(X_test); output = np.transpose([output]);
   predict(output)
-  #check_answer(output, 'test_ans.csv')
+  check_answer(output, answer_file)
 
   output = gridsearch.predict(X_train)
-  #print (1-np.mean(Y_train[:,0]), np.mean(output==Y_train[:,0]))
+  print (1-np.mean(Y_train[:,0]), np.mean(output==Y_train[:,0]))
 
   
 if __name__ == '__main__':

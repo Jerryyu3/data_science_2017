@@ -4,7 +4,7 @@ import numpy as np
 
 data = np.genfromtxt('hw2_data/spambase.csv', delimiter=',')
 #print (data)
-random.shuffle(data)
+np.random.shuffle(data)
 #print (data)
 
 split_num = 3999
